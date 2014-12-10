@@ -1,4 +1,4 @@
-
+"""Class BinaryTree for the Well Separated Decomposition"""
 
 
 
@@ -35,3 +35,12 @@ class BinaryTree():
         else:
             right = []
         return filter(None,[left,[self._value],right]) 
+
+    def right(self):
+        return self._right
+
+    def left(self):
+        return self._left
+
+    def parent(self):
+        return self._parent
