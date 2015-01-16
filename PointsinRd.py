@@ -8,36 +8,32 @@ class Rectangle(object):
   
   def __init__(self, d, intervals, widths = None):
     
-    self._d = d
-    self._intervals = intervals
-    self._widths = self._intervals[:,1] - self._intervals[:,0] 
+    self.d = d
+    self.intervals = intervals
+    self.widths = self.intervals[:,1]-self.intervals[:,0] 
   
   def __repr__(self):
     
-    return "Rectangle %s" %("x".join([str(x) for x in self._intervals]))
+    return "Rectangle %s" %("x".join([str(x) for x in self.intervals]))
 
   def times(self, other):
     
-    return Rectangle(self._d + other._d, self._intervals + other._intervals, self._widths + other._widths)
+    return Rectangle(self.d+other.d, self.intervals+other.intervals, self.widths+other.widths)
 
   def halve(self, l):
     
-    intervals1 = np.copy(self._intervals)
-    intervals2 = np.copy(self._intervals)
+    intervals1 = np.copy(self.intervals)
+    intervals2 = np.copy(self.intervals)
     widths = self._widths
     widths[l] /= 2.
-    intervals1[l,1] = (self._intervals[l,1] + self._intervals[l,0])/2.
+    intervals1[l,1] = (self.intervals[l,1] + self.intervals[l,0])/2.
     intervals2[l,0] = intervals1[l,1]
     #[......] -> [[...],[...]]
-    return [Rectangle(self._d, intervals1,widths), Rectangle(self._d, intervals2, widths)]
-
-  def intervals(self):
-    
-    return self._intervals
+    return [Rectangle(self.d, intervals1,widths), Rectangle(self.d, intervals2, widths)]
  
 class DLNode(object):
   
-def __init__(self, point, prev, next):
+  def __init__(self, point, prev, next):
     
     self.point = point
     self.prev = prev
@@ -85,10 +81,13 @@ class Points(object):
   
   def __init__(self, P):
     
-    self._P = P
+    self.P = P
 
-"""Axis-Aligned Bounding Box for a matrix, with rows being points"""
 def AABB(P):
+  """
+  Axis-Aligned Bounding Box for a matrix, with rows being points
+  """
+
   maxs = P.max(0)
   mins = P.min(0)
   ints = [[mins[i],maxs[i]] for i in range(P.shape[1])]
@@ -96,6 +95,7 @@ def AABB(P):
   return Rectangle(P.shape[1],ints)
 
 def OuterRectangle(P):
+
   maxs = P.max(0)
   mins = P.min(0)
   center = (maxs + mins)/2.
@@ -106,6 +106,7 @@ def OuterRectangle(P):
   return Rectangle(P.shape[1],ints)
 
 def showPointsandRectangle(P,Rect):
+
   ints = Rect.intervals()
   fig = plt.figure()
   ax = fig.add_subplot(111)
@@ -114,14 +115,13 @@ def showPointsandRectangle(P,Rect):
     (ints[0,0], ints[1,1]),
     (ints[0,1], ints[1,1]),
     (ints[0,1], ints[1,0]),
-    (ints[0,0], ints[1,0]),
-    ]
-  codes = [Path.MOVETO,
-       Path.LINETO,
-       Path.LINETO,
-       Path.LINETO,
-       Path.CLOSEPOLY,
-       ]
+    (ints[0,0], ints[1,0]),]
+  codes = [
+    Path.MOVETO,
+    Path.LINETO,
+    Path.LINETO,
+    Path.LINETO,
+    Path.CLOSEPOLY,]
 
   path = Path(verts, codes)
   patch = patches.PathPatch(path, facecolor='none', lw=2)
