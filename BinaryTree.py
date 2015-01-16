@@ -5,7 +5,7 @@ class BinaryTree():
   
   def __init__(self,val):
 
-    self._value = val
+    self.value = val
     self.left = None
     self.right = None
     self.parent = None
@@ -28,4 +28,4 @@ class BinaryTree():
  
     left  = self.left.inorder()  if self.left  is not None else left  = []
     right = self.right.inorder() if self.right is not None else right = []                      
-    return filter(None,[left,[self._value],right]) 
+    return filter(None,[left,[self.value],right]) 
