@@ -26,6 +26,6 @@ class BinaryTree():
 
   def inorder(self):
  
-    left  = self.left.inorder()  if self.left  is not None else left  = []
-    right = self.right.inorder() if self.right is not None else right = []                      
+    left  = self.left.inorder()  if self.left  is not None else []
+    right = self.right.inorder() if self.right is not None else []                      
     return filter(None,[left,[self.value],right]) 
